@@ -1,0 +1,6 @@
+venv/
+.idea/
+__pycache__/
+snetd.db
+snetd.config
+

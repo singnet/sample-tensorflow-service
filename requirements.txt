@@ -1,0 +1,7 @@
+aiohttp
+jsonrpcserver
+tensorflow<1.4.0
+jsonrpcclient
+requests
+snetd-alpha
+
