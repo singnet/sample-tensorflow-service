@@ -4,15 +4,9 @@ import pathlib
 import subprocess
 import signal
 import time
-import sys
-import argparse
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="run-snet-service")
-    parser.add_argument("--daemon-config-path", help="Path to daemon configuration file", required=False)
-    args = parser.parse_args(sys.argv[1:])
-
     def handle_signal(signum, frame):
         snetd_p.send_signal(signum)
         service_p.send_signal(signum)
@@ -24,22 +18,19 @@ def main():
     signal.signal(signal.SIGINT, handle_signal)
 
     root_path = pathlib.Path(__file__).absolute().parent.parent
-    snetd_p = start_snetd(root_path, args.daemon_config_path)
+    snetd_p = start_snetd(root_path)
     service_p = start_service(root_path)
 
     while True:
         if snetd_p.poll() is not None:
-            snetd_p = start_snetd(root_path, args.daemon_config_path)
+            snetd_p = start_snetd(root_path)
         if service_p.poll() is not None:
             service_p = start_service(root_path)
         time.sleep(5)
 
 
-def start_snetd(cwd, daemon_config_path=None):
-    cmd = ["snetd"]
-    if daemon_config_path is not None:
-        cmd.extend(["--config-path", daemon_config_path])
-    return subprocess.Popen(cmd, cwd=cwd)
+def start_snetd(cwd):
+    return subprocess.Popen(["./snetd-linux-amd64"], cwd=cwd)
 
 
 def start_service(cwd):

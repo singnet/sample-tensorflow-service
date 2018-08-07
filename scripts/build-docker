@@ -6,7 +6,7 @@ import subprocess
 
 def main():
     dockerfile_path = pathlib.Path(__file__).absolute().parent.parent
-    subprocess.call(["docker", "build", ".", "-t", "singularitynet/alpha-service-example:latest"], cwd=dockerfile_path)
+    subprocess.call(["docker", "build", ".", "-t", "singularitynet/example-service:latest"], cwd=dockerfile_path)
 
 
 if __name__ == "__main__":
