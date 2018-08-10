@@ -1,0 +1,22 @@
+{
+    "name": "ExampleService",
+    "model": "model/",
+    "organization": "SingularityNET",
+    "path": "",
+    "price": 1000000,
+    "endpoint": "http://18.233.195.25:8080",
+    "tags": [
+        "SingularityNET",
+        "Example",
+        "TensorFlow",
+        "Image Classification"
+    ],
+    "metadata": {
+        "description": "SingularityNET TensorFlow example image classification service"
+    },
+    "networks": {
+        "42": {
+            "agentAddress": "0xf2B35821409baEe26aFcC955D7a332031003D95D"
+        }
+    }
+}
