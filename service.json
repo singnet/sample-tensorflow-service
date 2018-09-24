@@ -1,6 +1,6 @@
 {
     "name": "ExampleService",
-    "model": "model/",
+    "service_spec": "service_spec",
     "organization": "SingularityNET",
     "path": "",
     "price": 1000000,
