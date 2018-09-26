@@ -1,0 +1,22 @@
+version: 2
+jobs:
+  build:
+    docker:
+    - image: circleci/python:3.6.6
+    working_directory: ~/singnet/example-service
+    steps:
+    - checkout
+    - run:
+        name: Build example-service
+        command: sudo pip3 install -r requirements.txt
+    - run:
+        name: Test example-service
+        command: |
+          cat > ./configuration/config.json << EOF
+          {
+            "SERVER_PORT": 5001,
+            "MINIMUM_SCORE": 0.20,
+            "LOG_LEVEL": 10
+          }
+          python image_classification_service &
+          ./scripts/test-call
