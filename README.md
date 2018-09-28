@@ -1,5 +1,7 @@
 # example-service
 
+[![CircleCI](https://circleci.com/gh/singnet/example-service.svg?style=svg)](https://circleci.com/gh/singnet/example-service)
+
 Simple image classification service compatible with the SingularityNET daemon
 
 ## Getting Started
