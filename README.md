@@ -54,13 +54,16 @@ $ python image_classification_service
 * The following configuration values should be populated in a file (e.g. snetd.config) as described
 ```json
 {
-    "AGENT_CONTRACT_ADDRESS": "",
+    "REGISTRY_ADDRESS_KEY":"",
+    "DAEMON_END_POINT":"",
+    "DAEMON_LISTENING_PORT": 5000,
+    "ORGANIZATION_NAME":"",
+    "SERVICE_NAME":"",
+    "IPFS_END_POINT":"",
     "AUTO_SSL_DOMAIN": "",
     "AUTO_SSL_CACHE_DIR": "",
     "BLOCKCHAIN_ENABLED": true,
     "CONFIG_PATH": "",
-    "DAEMON_LISTENING_PORT": 5000,
-    "DAEMON_TYPE": "",
     "DB_PATH": "",
     "ETHEREUM_JSON_RPC_ENDPOINT": "",
     "EXECUTABLE_PATH": "",
@@ -71,21 +74,51 @@ $ python image_classification_service
     "PASSTHROUGH_ENDPOINT": "",
     "POLL_SLEEP": "",
     "PRIVATE_KEY": "",
-    "SERVICE_TYPE": "jsonrpc",
     "SSL_CERT": "",
     "SSL_KEY": "",
-    "WIRE_ENCODING": "json"
+    "LOG": {
+        "FORMATTER": {
+        "TYPE": "TEXT"
+        },
+        "HOOKS": [],
+        "LEVEL": "INFO",
+        "OUTPUT": {
+            "CURRENT_LINK": "./SNET-DAEMON.LOG",
+            "FILE_PATTERN": "./SNET-DAEMON.%Y%M%D.LOG",
+            "MAX_AGE_IN_SEC": 604800,
+            "ROTATION_COUNT": 0,
+            "ROTATION_TIME_IN_SEC": 86400,
+            "TYPE": "FILE"
+        },
+        "TIMEZONE": "UTC"
+    },
+    "PAYMENT_CHANNEL_STORAGE_CLIENT": {
+        "CONNECTION_TIMEOUT": "",
+        "ENDPOINTS": ["HTTP://127.0.0.1:2379"],
+        "REQUEST_TIMEOUT": "3S"
+    },
+    "PAYMENT_CHANNEL_STORAGE_SERVER": {
+        "ID": "STORAGE-1",
+        "SCHEME": "HTTP",
+        "HOST" : "127.0.0.1",
+        "CLIENT_PORT": 2379,
+        "PEER_PORT": 2380,
+        "TOKEN": "UNIQUE-TOKEN",
+        "CLUSTER": "STORAGE-1=HTTP://127.0.0.1:2380",
+        "STARTUP_TIMEOUT": "1M",
+        "DATA_DIR": "STORAGE-DATA-DIR-1.ETCD",
+        "LOG_LEVEL": "INFO",
+        "ENABLED": TRUE
+    }
 }
 ```
-* AGENT_CONTRACT_ADDRESS: the address of the Agent contract instance associated with this service (only applicable if
-BLOCKCHAIN_ENABLED)
+* REGISTRY_ADDRESS: the address of the registry where the service is published
+* DAEMON_END_POINT: the end point as specified during service registration
+* DAEMON_LISTENING_PORT: the port on which the daemon will listen for incoming JSON-RPC calls over http (must differ
+from SERVER_PORT in the service configuration). This should match the port number specified in DAEMON_END_POINT
 * AUTO_SSL_DOMAIN: domain for which daemon should acquire LetsEncrypt SSL certificates
 * AUTO_SSL_CACHE_DIR: directory in which daemon should cache LetsEncrypt SSL certificates
 * BLOCKCHAIN_ENABLED: whether the daemon validates and completes calls against the blockchain
-* DAEMON_LISTENING_PORT: the port on which the daemon will listen for incoming JSON-RPC calls over http (must differ
-from SERVER_PORT in the service configuration)
-* DAEMON_TYPE: type of endpoint that daemon should expose; "http" for alpha-style JSON-RPC over HTTP proxy, "grpc" to
-enable new gRPC features
 * DB_PATH: path at which daemon should maintain local database of blockchain and job state
 * ETHEREUM_JSON_RPC_ENDPOINT: the Ethereum node the daemon should run its blockchain client against (i.e. geth,
 ganache, infura; only applicable if BLOCKCHAIN_ENABLED)
@@ -101,10 +134,10 @@ true)
 * POLL_SLEEP: time between checking blockchain state (defaults to 5s)
 * PRIVATE_KEY: the hex-encoded private key for the account that the daemon should use to transact on the blockchain 
 (takes precedence if both PRIVATE_KEY and HDWALLET_MNEMONIC are provided)
-* SERVICE_TYPE: example service is "jsonrpc" service type
 * SSL_CERT: path to certificate file daemon should use for SSL
 * SSL_KEY: path to key file daemon should use for SSL
-* WIRE_ENCODING: example service uses "json" wire encoding
+* PAYMENT_CHANNEL_STORAGE_CLIENT: etcd connection details. Payment channel details are read from this etcd instance when the claim command is run on the daemon
+* PAYMENT_CHANNEL_STORAGE_SERVER: etcd connection details. Payment channel details are written to this etcd instance
 
 ##### Running Service + Daemon on Host
 
