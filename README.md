@@ -78,35 +78,35 @@ $ python image_classification_service
     "SSL_KEY": "",
     "LOG": {
         "FORMATTER": {
-        "TYPE": "TEXT"
+        "TYPE": "text"
         },
         "HOOKS": [],
         "LEVEL": "INFO",
         "OUTPUT": {
-            "CURRENT_LINK": "./SNET-DAEMON.LOG",
-            "FILE_PATTERN": "./SNET-DAEMON.%Y%M%D.LOG",
+            "CURRENT_LINK": "./snet-daemon.log",
+            "FILE_PATTERN": "./snet-daemon.%Y%m%d.log",
             "MAX_AGE_IN_SEC": 604800,
             "ROTATION_COUNT": 0,
             "ROTATION_TIME_IN_SEC": 86400,
-            "TYPE": "FILE"
+            "TYPE": "file"
         },
         "TIMEZONE": "UTC"
     },
     "PAYMENT_CHANNEL_STORAGE_CLIENT": {
         "CONNECTION_TIMEOUT": "",
-        "ENDPOINTS": ["HTTP://127.0.0.1:2379"],
-        "REQUEST_TIMEOUT": "3S"
+        "ENDPOINTS": ["http://127.0.0.1:2379"],
+        "REQUEST_TIMEOUT": "3s"
     },
     "PAYMENT_CHANNEL_STORAGE_SERVER": {
-        "ID": "STORAGE-1",
-        "SCHEME": "HTTP",
+        "ID": "storage-1",
+        "SCHEME": "http",
         "HOST" : "127.0.0.1",
         "CLIENT_PORT": 2379,
         "PEER_PORT": 2380,
         "TOKEN": "UNIQUE-TOKEN",
-        "CLUSTER": "STORAGE-1=HTTP://127.0.0.1:2380",
-        "STARTUP_TIMEOUT": "1M",
-        "DATA_DIR": "STORAGE-DATA-DIR-1.ETCD",
+        "CLUSTER": "storage-1=http://127.0.0.1:2380",
+        "STARTUP_TIMEOUT": "1m",
+        "DATA_DIR": "storage-data-dir-1.etcd",
         "LOG_LEVEL": "INFO",
         "ENABLED": TRUE
     }
@@ -127,11 +127,9 @@ ganache, infura; only applicable if BLOCKCHAIN_ENABLED)
 * HDWALLET_MNEMONIC: the [bip39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki) mnemonic corresponding
 with the root seed for the [bip32](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki) wallet from which
 the daemon's account should be derived
-* LOG_LEVEL: the logging verbosity of the daemon
 * PASSTHROUGH_ENABLED: whether the daemon delegates calls to service or echoes requests back to the client (should be
 true)
 * PASSTHROUGH_ENDPOINT: the endpoint on which the service is configured to listen for incoming JSON-RPC calls over http
-* POLL_SLEEP: time between checking blockchain state (defaults to 5s)
 * PRIVATE_KEY: the hex-encoded private key for the account that the daemon should use to transact on the blockchain 
 (takes precedence if both PRIVATE_KEY and HDWALLET_MNEMONIC are provided)
 * SSL_CERT: path to certificate file daemon should use for SSL
