@@ -14,6 +14,7 @@ jobs:
     - run:
         name: Test example-service
         command: |
+          sh buildproto.sh
           python3 run_example_service.py --no-daemon &
           python3 test_example_service.py auto
     - run:
