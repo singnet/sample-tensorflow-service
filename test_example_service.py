@@ -21,8 +21,8 @@ if __name__ == "__main__":
             endpoint = "localhost:{}".format(registry["example_service"]["grpc"])
 
         grpc_method = input("Method (add|sub|mul|div): ") if not test_flag else "mul"
-        a = float(input("Number 1: ")) if not test_flag else "12"
-        b = float(input("Number 2: ")) if not test_flag else "7"
+        a = float(input("Number 1: ") if not test_flag else "12")
+        b = float(input("Number 2: ") if not test_flag else "7")
 
         # Open a gRPC channel
         channel = grpc.insecure_channel("{}".format(endpoint))
