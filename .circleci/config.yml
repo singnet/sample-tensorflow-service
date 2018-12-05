@@ -14,14 +14,8 @@ jobs:
     - run:
         name: Test example-service
         command: |
-          cat > ./configuration/config.json << EOF
-          {
-            "SERVER_PORT": 5001,
-            "MINIMUM_SCORE": 0.20,
-            "LOG_LEVEL": 10
-          }
-          python image_classification_service &
-          ./scripts/test-call
+          python3 run_example_service.py --no-daemon &
+          python3 test_example_service.py auto
     - run:
         name: Trigger platform-pipeline build
         command: |

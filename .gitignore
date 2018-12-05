@@ -1,6 +1,6 @@
 venv/
 .idea/
 __pycache__/
+**/service_spec/*.py
 snetd.db
 snetd.config
-
