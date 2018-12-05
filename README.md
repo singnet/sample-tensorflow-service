@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/singnet/example-service.svg?style=svg)](https://circleci.com/gh/singnet/example-service)
 
-Simple image classification service compatible with the SingularityNET daemon
+Simple arithmetic service compatible with SingularityNET
 
 ## Getting Started
 
@@ -12,81 +12,108 @@ Simple image classification service compatible with the SingularityNET daemon
 
 ### Installing
 
-* Clone the git repository
-```bash
+* Clone the git repository:
+
+```
 $ git clone git@github.com:singnet/example-service.git
 $ cd example-service
 ```
 
-* Install the dependencies
-```bash
-$ pip install -r requirements.txt
-```
+* Install the dependencies and compile the protobuf file:
 
-### Configuration
-
-* The following default configuration can be overridden by populating configuration/config.json in the source tree with
-the desired values
-```json
-{
-  "SERVER_PORT": 5001,
-  "MINIMUM_SCORE": 0.20,
-  "LOG_LEVEL": 10
-}
 ```
-* SERVER_PORT: the port on which the example service will listen for incoming JSON-RPC calls over http
-* MINIMUM_SCORE: the minimum confidence score (between 0 and 1 inclusive) required to return a given prediction
-* LOG_LEVEL: the logging verbosity
+$ pip3 install -r requirements.txt
+$ sh buildproto.sh
+```
 
 ### Running
 
 #### Standalone
 
-* Invoke the example service directly
-```bash
-$ python image_classification_service
+* Run the example service directly (without `SNET Daemon`):
+
+```
+$ python3 run_example_service.py --no-daemon
+```
+
+* To test it run the script:
+
+```
+$ python3 test_example_service.py
 ```
 
 #### With SingularityNET Daemon
 
 ##### SingularityNET Daemon Configuration
 
-Create `snetd.config.json` file containing the following:
-```json
+Now you must follow the [howToPublishService](https://github.com/singnet/wiki/tree/master/tutorials/howToPublishService)
+tutorial to publish this service and set the `snetd.config.json` file.
+
+Then, be sure that you have the `snetd` in your PATH.
+
+Create the `snetd.config.json` file using this template:
+
+```
 {
-  "passthrough_enabled": true
+   "DAEMON_LISTENING_PORT": DAEMON_PORT,
+   "DAEMON_END_POINT": "DAEMON_HOST:DAEMON_PORT",
+   "ETHEREUM_JSON_RPC_ENDPOINT": "https://kovan.infura.io",
+   "IPFS_END_POINT": "http://ipfs.singularitynet.io:80",
+   "REGISTRY_ADDRESS_KEY": "0x2e4b2f2b72402b9b2d6a7851e37c856c329afe38",
+   "PASSTHROUGH_ENABLED": true,
+   "PASSTHROUGH_ENDPOINT": "SERVICE_GRPC_HOST:SERVICE_GRPC_PORT",  
+   "ORGANIZATION_NAME": "ORGANIZATION_NAME",
+   "SERVICE_NAME": "SERVICE_NAME",
+   "LOG": {
+       "LEVEL": "debug",
+       "OUTPUT": {
+            "TYPE": "stdout"
+           }
+   }
 }
 ```
-in order to enable example service work with daemon. See [SingularityNet daemon configuration](https://github.com/singnet/snet-daemon/blob/master/README.md#configuration) for detailed configuration description.
+
+For example, replace tags with:
+
+- `DAEMON_PORT`: 7000
+- `DAEMON_HOST:DAEMON_PORT`: http://54.203.198.53:7000
+- `SERVICE_GRPC_HOST:SERVICE_GRPC_PORT`: http://localhost:7003
+- `ORGANIZATION_NAME`: example-organization
+- `SERVICE_NAME`: example-service
+
+See [SingularityNet daemon configuration](https://github.com/singnet/snet-daemon/blob/master/README.md#configuration) for detailed configuration description.
 
 ##### Running Service + Daemon on Host
 
-* Invoke the run-snet-service script which launches both snetd and the example service
-```bash
-$ ./scripts/run-snet-service
+* Run the script without flag to launch both `SNET Daemon` and the service
+
+```
+$ python3 run_example_service.py
 ```
 
 ##### Running Service + Daemon in Docker Container
 
-* Ensure that PASSTHROUGH_ENDPOINT is configured to be "http://127.0.0.1:5001" in your daemon configuration
-* Run the docker image with your daemon configuration (where HOST_PORT is the port you want the daemon bound to on your
-host)
-```bash
-$ docker run --detach -p HOST_PORT:DAEMON_LISTENING_PORT -v /path/to/config:/snetd.config singularitynet/example-service:latest
+* Build the docker image and run a Container from it:
+
+```
+$ docker build -t snet_example_service https://github.com/singnet/example-service.git#master
+$ docker run -p 7000:7000 -ti snet_example_service bash
+```
+
+From this point we follow the tutorial in the Docker Container's prompt.
+
+After this, run the service (with `SNET Daemon`):
+
+```
+# python3 run_example_service.py &
 ```
 
 ### Testing
 
-* Invoke the test-call script against a running instance of the example service
-```bash
-$ ./scripts/test-call
+* Invoke the test script (from the same Docker Container):
+
 ```
-
-### Building Docker Image
-
-* Invoke the docker build script
-```bash
-$ ./scripts/build-docker
+# python3 test_example_service.py
 ```
 
 ## License
