@@ -51,7 +51,7 @@ $ python image_classification_service
 
 ##### SingularityNET Daemon Configuration
 
-Create `snet.daemon.json` file containing the following:
+Create `snetd.config.json` file containing the following:
 ```json
 {
   "passthrough_enabled": true
