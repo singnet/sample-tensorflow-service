@@ -55,13 +55,12 @@ Create the `snetd.config.json` file using this template:
 
 ```
 {
-   "DAEMON_LISTENING_PORT": DAEMON_PORT,
-   "DAEMON_END_POINT": "DAEMON_HOST:DAEMON_PORT",
+   "DAEMON_END_POINT": "http://DAEMON_HOST:DAEMON_PORT",
    "ETHEREUM_JSON_RPC_ENDPOINT": "https://kovan.infura.io",
    "IPFS_END_POINT": "http://ipfs.singularitynet.io:80",
    "REGISTRY_ADDRESS_KEY": "0x2e4b2f2b72402b9b2d6a7851e37c856c329afe38",
    "PASSTHROUGH_ENABLED": true,
-   "PASSTHROUGH_ENDPOINT": "SERVICE_GRPC_HOST:SERVICE_GRPC_PORT",  
+   "PASSTHROUGH_ENDPOINT": "http://SERVICE_GRPC_HOST:SERVICE_GRPC_PORT",  
    "ORGANIZATION_NAME": "ORGANIZATION_NAME",
    "SERVICE_NAME": "SERVICE_NAME",
    "LOG": {
@@ -75,9 +74,8 @@ Create the `snetd.config.json` file using this template:
 
 For example, replace tags with:
 
-- `DAEMON_PORT`: 7000
-- `DAEMON_HOST:DAEMON_PORT`: http://54.203.198.53:7000
-- `SERVICE_GRPC_HOST:SERVICE_GRPC_PORT`: http://localhost:7003
+- `http://DAEMON_HOST:DAEMON_PORT`: http://54.203.198.53:7000
+- `http://SERVICE_GRPC_HOST:SERVICE_GRPC_PORT`: http://localhost:7003
 - `ORGANIZATION_NAME`: example-organization
 - `SERVICE_NAME`: example-service
 
